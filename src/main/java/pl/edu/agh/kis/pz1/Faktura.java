@@ -1,18 +1,8 @@
 package pl.edu.agh.kis.pz1;
 
-
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 @XmlRootElement
@@ -22,36 +12,38 @@ import java.io.*;
         "CenaBruttoPozycji", "CenaNettoFaktury", "CenaBruttoFaktury"})
 public class Faktura {
 
-    @XmlElement(name = "Nazwa odbiorcy")
+
+    @XmlElement(name = "Nazwa_odbiorcy")
     private String NazwaOdbiorcy;
-    @XmlElement(name = "Adres odbiorcy")
+    @XmlElement(name = "Adres_odbiorcy")
     private String AdresOdbiorcy;
-    @XmlElement(name = "Nip odbiorcy")
+    @XmlElement(name = "Nip_odbiorcy")
     private String NipOdbiorcy;
-    @XmlElement(name = "Data wystawienia")
-    private LocalDate DataWystawienia;
-    @XmlElement(name = "Data sprzedaży")
-    private LocalDate DataSprzedazy;
-    @XmlElement(name = "Nr faktury")
+    @XmlElement(name = "Data_wystawienia")
+    private String DataWystawienia;
+    @XmlElement(name = "Data_sprzedaży")
+    private String DataSprzedazy;
+    @XmlElement(name = "Nr_faktury")
     private String NrFaktury;
-    @XmlElement(name = "Tytuł pozycji")
+    @XmlElement(name = "Tytuł_pozycji")
     private String TytulPozycji;
-    @XmlElement(name = "Liczba sztuk")
-    private String LiczbaSztuk;
-    @XmlElement(name = "Cena jednostkowa")
-    private String CenaJednostkowa;
-    @XmlElement(name = "Stawka podatku %")
-    private String StawkaPodatku;
-    @XmlElement(name = "Kwota Podatku")
-    private String KwotaPodatku;
-    @XmlElement(name = "Cena netto pozycji")
-    private String CenaNettoPozycji;
-    @XmlElement(name = "Cena brutto pozycji")
-    private String CenaBruttoPozycji;
-    @XmlElement(name = "Cena netto faktury łącznie")
-    private String CenaNettoFaktury;
-    @XmlElement(name = "Cena brutto faktury łącznie")
-    private String CenaBruttoFaktury;
+    @XmlElement(name = "Liczba_sztuk")
+    private double LiczbaSztuk;
+    @XmlElement(name = "Cena_jednostkowa")
+    private BigDecimal CenaJednostkowa;
+    @XmlElement(name = "Stawka_podatku")
+    private int StawkaPodatku;
+    @XmlElement(name = "Kwota_Podatku")
+    private BigDecimal KwotaPodatku;
+    @XmlElement(name = "Cena_netto_pozycji")
+    private BigDecimal CenaNettoPozycji;
+    @XmlElement(name = "Cena_brutto_pozycji")
+    private BigDecimal CenaBruttoPozycji;
+    @XmlElement(name = "Cena_netto_faktury_łącznie")
+    private BigDecimal CenaNettoFaktury;
+    @XmlElement(name = "Cena_brutto_faktury_łącznie")
+    private BigDecimal CenaBruttoFaktury;
+
 
     public Faktura() {}
 
@@ -62,18 +54,18 @@ public class Faktura {
         NazwaOdbiorcy = nazwaOdbiorcy;
         AdresOdbiorcy = adresOdbiorcy;
         NipOdbiorcy = nipOdbiorcy;
-        DataWystawienia = LocalDate.parse(dataWystawienia);
-        DataSprzedazy = LocalDate.parse(dataSprzedazy);
+        DataWystawienia = dataWystawienia;
+        DataSprzedazy = dataSprzedazy;
         NrFaktury = nrFaktury;
         TytulPozycji = tytulPozycji;
-        LiczbaSztuk = liczbaSztuk;
-        CenaJednostkowa = cenaJednostkowa;
-        StawkaPodatku = stawkaPodatku;
-        KwotaPodatku = kwotaPodatku.split(" ")[0];
-        CenaNettoPozycji = cenaNettoPozycji.split(" ")[0].replace(",", ".").replaceAll();
-        CenaBruttoPozycji = cenaBruttoPozycji;
-        CenaNettoFaktury = cenaNettoFaktury;
-        CenaBruttoFaktury = cenaBruttoFaktury;
+        LiczbaSztuk = Double.parseDouble(liczbaSztuk.replace(",", "."));
+        CenaJednostkowa = BigDecimal.valueOf(Double.parseDouble(cenaJednostkowa.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
+        StawkaPodatku = Integer.parseInt(stawkaPodatku);
+        KwotaPodatku = BigDecimal.valueOf(Double.parseDouble(kwotaPodatku.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
+        CenaNettoPozycji = BigDecimal.valueOf(Double.parseDouble(cenaNettoPozycji.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
+        CenaBruttoPozycji = BigDecimal.valueOf(Double.parseDouble(cenaBruttoPozycji.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
+        CenaNettoFaktury = BigDecimal.valueOf(Double.parseDouble(cenaNettoFaktury.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
+        CenaBruttoFaktury = BigDecimal.valueOf(Double.parseDouble(cenaBruttoFaktury.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
     }
 
 
@@ -97,10 +89,5 @@ public class Faktura {
                 "Cena brutto faktury łącznie: " + CenaBruttoFaktury;
     }
 
-    public void marshalToXML(File fileName) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(Faktura.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.marshal(this, fileName);
-    }
+
 }
