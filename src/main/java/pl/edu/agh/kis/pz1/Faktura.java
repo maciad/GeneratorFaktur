@@ -5,88 +5,109 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 
+
+/**
+ * Class representing a single invoice
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"NazwaOdbiorcy", "AdresOdbiorcy", "NipOdbiorcy", "DataWystawienia", "DataSprzedazy", "NrFaktury",
-        "TytulPozycji", "LiczbaSztuk", "CenaJednostkowa", "StawkaPodatku", "KwotaPodatku", "CenaNettoPozycji",
-        "CenaBruttoPozycji", "CenaNettoFaktury", "CenaBruttoFaktury"})
+@XmlType(propOrder = {"nazwaOdbiorcy", "adresOdbiorcy", "nipOdbiorcy", "dataWystawienia", "dataSprzedazy", "nrFaktury",
+        "tytulPozycji", "liczbaSztuk", "cenaJednostkowa", "stawkaPodatku", "kwotaPodatku", "cenaNettoPozycji",
+        "cenaBruttoPozycji", "cenaNettoFaktury", "cenaBruttoFaktury"})
 public class Faktura {
 
 
     @XmlElement(name = "Nazwa_odbiorcy")
-    private String NazwaOdbiorcy;
+    private String nazwaOdbiorcy;
     @XmlElement(name = "Adres_odbiorcy")
-    private String AdresOdbiorcy;
+    private String adresOdbiorcy;
     @XmlElement(name = "Nip_odbiorcy")
-    private String NipOdbiorcy;
+    private String nipOdbiorcy;
     @XmlElement(name = "Data_wystawienia")
-    private String DataWystawienia;
+    private String dataWystawienia;
     @XmlElement(name = "Data_sprzedaży")
-    private String DataSprzedazy;
+    private String dataSprzedazy;
     @XmlElement(name = "Nr_faktury")
-    private String NrFaktury;
+    private String nrFaktury;
     @XmlElement(name = "Tytuł_pozycji")
-    private String TytulPozycji;
+    private String tytulPozycji;
     @XmlElement(name = "Liczba_sztuk")
-    private double LiczbaSztuk;
+    private double liczbaSztuk;
     @XmlElement(name = "Cena_jednostkowa")
-    private BigDecimal CenaJednostkowa;
+    private BigDecimal cenaJednostkowa;
     @XmlElement(name = "Stawka_podatku")
-    private int StawkaPodatku;
+    private int stawkaPodatku;
     @XmlElement(name = "Kwota_Podatku")
-    private BigDecimal KwotaPodatku;
+    private BigDecimal kwotaPodatku;
     @XmlElement(name = "Cena_netto_pozycji")
-    private BigDecimal CenaNettoPozycji;
+    private BigDecimal cenaNettoPozycji;
     @XmlElement(name = "Cena_brutto_pozycji")
-    private BigDecimal CenaBruttoPozycji;
+    private BigDecimal cenaBruttoPozycji;
     @XmlElement(name = "Cena_netto_faktury_łącznie")
-    private BigDecimal CenaNettoFaktury;
+    private BigDecimal cenaNettoFaktury;
     @XmlElement(name = "Cena_brutto_faktury_łącznie")
-    private BigDecimal CenaBruttoFaktury;
+    private BigDecimal cenaBruttoFaktury;
 
+    @XmlTransient
+    static final String NBSP = "\u00A0";
 
     public Faktura() {}
 
-    public Faktura(String nazwaOdbiorcy, String adresOdbiorcy, String nipOdbiorcy, String dataWystawienia,
-                   String dataSprzedazy, String nrFaktury, String tytulPozycji, String liczbaSztuk,
-                   String cenaJednostkowa, String stawkaPodatku, String kwotaPodatku,
-                   String cenaNettoPozycji, String cenaBruttoPozycji, String cenaNettoFaktury, String cenaBruttoFaktury) {
-        NazwaOdbiorcy = nazwaOdbiorcy;
-        AdresOdbiorcy = adresOdbiorcy;
-        NipOdbiorcy = nipOdbiorcy;
-        DataWystawienia = dataWystawienia;
-        DataSprzedazy = dataSprzedazy;
-        NrFaktury = nrFaktury;
-        TytulPozycji = tytulPozycji;
-        LiczbaSztuk = Double.parseDouble(liczbaSztuk.replace(",", "."));
-        CenaJednostkowa = BigDecimal.valueOf(Double.parseDouble(cenaJednostkowa.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
-        StawkaPodatku = Integer.parseInt(stawkaPodatku);
-        KwotaPodatku = BigDecimal.valueOf(Double.parseDouble(kwotaPodatku.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
-        CenaNettoPozycji = BigDecimal.valueOf(Double.parseDouble(cenaNettoPozycji.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
-        CenaBruttoPozycji = BigDecimal.valueOf(Double.parseDouble(cenaBruttoPozycji.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
-        CenaNettoFaktury = BigDecimal.valueOf(Double.parseDouble(cenaNettoFaktury.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
-        CenaBruttoFaktury = BigDecimal.valueOf(Double.parseDouble(cenaBruttoFaktury.split(" ")[0].replace(",", ".").replaceAll("\u00A0", ""))).setScale(2, RoundingMode.HALF_UP);
+    /**
+     * Constructor of the class
+     * @param dane array of strings containing data to be parsed. The order of the data is as follows:
+     *             0 - nazwa odbiorcy,
+     *             1 - adres odbiorcy,
+     *             2 - nip odbiorcy,
+     *             3 - data wystawienia,
+     *             4 - data sprzedaży,
+     *             5 - numer faktury,
+     *             6 - tytuł pozycji,
+     *             7 - liczba sztuk,
+     *             8 - cena jednostkowa,
+     *             9 - stawka podatku,
+     *             10 - kwota podatku,
+     *             11 - cena netto pozycji,
+     *             12 - cena brutto pozycji,
+     *             13 - cena netto faktury,
+     *             14 - cena brutto faktury
+     */
+    public Faktura(String[] dane) {
+        this.nazwaOdbiorcy = dane[0];
+        this.adresOdbiorcy = dane[1];
+        this.nipOdbiorcy = dane[2];
+        this.dataWystawienia = dane[3];
+        this.dataSprzedazy = dane[4];
+        this.nrFaktury = dane[5];
+        this.tytulPozycji = dane[6];
+        this.liczbaSztuk = Double.parseDouble(dane[7].replace(",", "."));
+        this.cenaJednostkowa = BigDecimal.valueOf(Double.parseDouble(dane[8].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
+        this.stawkaPodatku = Integer.parseInt(dane[9]);
+        this.kwotaPodatku = BigDecimal.valueOf(Double.parseDouble(dane[10].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
+        this.cenaNettoPozycji = BigDecimal.valueOf(Double.parseDouble(dane[11].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
+        this.cenaBruttoPozycji = BigDecimal.valueOf(Double.parseDouble(dane[12].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
+        this.cenaNettoFaktury = BigDecimal.valueOf(Double.parseDouble(dane[13].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
+        this.cenaBruttoFaktury = BigDecimal.valueOf(Double.parseDouble(dane[14].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
     }
-
 
 
     @Override
     public String toString() {
-        return "Nazwa odbiorcy: " + NazwaOdbiorcy + ", " +
-                "Adres odbiorcy: " + AdresOdbiorcy + ", " +
-                "Nip odbiorcy: " + NipOdbiorcy + ", " +
-                "Data wystawienia: " + DataWystawienia + ", " +
-                "Data sprzedaży: " + DataSprzedazy + ", " +
-                "Nr faktury: " + NrFaktury + ", " +
-                "Tytuł pozycji: " + TytulPozycji + ", " +
-                "Liczba sztuk: " + LiczbaSztuk + ", " +
-                "Cena jednostkowa: " + CenaJednostkowa + ", " +
-                "Stawka podatku: " + StawkaPodatku + ", " +
-                "Kwota podatku: " + KwotaPodatku + ", " +
-                "Cena netto pozycji: " + CenaNettoPozycji + ", " +
-                "Cena brutto pozycji: " + CenaBruttoPozycji + ", " +
-                "Cena netto faktury łącznie: " + CenaNettoFaktury + ", " +
-                "Cena brutto faktury łącznie: " + CenaBruttoFaktury;
+        return "Nazwa odbiorcy: " + nazwaOdbiorcy + ", " +
+                "Adres odbiorcy: " + adresOdbiorcy + ", " +
+                "Nip odbiorcy: " + nipOdbiorcy + ", " +
+                "Data wystawienia: " + dataWystawienia + ", " +
+                "Data sprzedaży: " + dataSprzedazy + ", " +
+                "Nr faktury: " + nrFaktury + ", " +
+                "Tytuł pozycji: " + tytulPozycji + ", " +
+                "Liczba sztuk: " + liczbaSztuk + ", " +
+                "Cena jednostkowa: " + cenaJednostkowa + ", " +
+                "Stawka podatku: " + stawkaPodatku + ", " +
+                "Kwota podatku: " + kwotaPodatku + ", " +
+                "Cena netto pozycji: " + cenaNettoPozycji + ", " +
+                "Cena brutto pozycji: " + cenaBruttoPozycji + ", " +
+                "Cena netto faktury łącznie: " + cenaNettoFaktury + ", " +
+                "Cena brutto faktury łącznie: " + cenaBruttoFaktury;
     }
 
 

@@ -7,19 +7,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class CSVReader {
 
-    public static ArrayList<Faktura> readFromCSV(String fileName) throws IOException {
-        ArrayList<Faktura> faktury = new ArrayList<>();
+    private CSVReader() {}
+
+    /**
+     * @param fileName the name of the file to open and read CSV data from
+     * @return list of Faktura objects
+     */
+    public static List<Faktura> readFromCSV(String fileName) throws IOException {
+        List<Faktura> faktury = new ArrayList<>();
         Path path = Paths.get(fileName);
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String header = reader.readLine();
+            String headers = reader.readLine(); // skip headers
             String line = reader.readLine();
             while (line != null) {
                 String[] values = line.split("\t");
-                faktury.add(new Faktura(values[0], values[1], values[2], values[3], values[4], values[5], values[6],
-                        values[7], values[8], values[9], values[10], values[11], values[12], values[13], values[14]));
+                faktury.add(new Faktura(values));
                 line = reader.readLine();
             }
         }

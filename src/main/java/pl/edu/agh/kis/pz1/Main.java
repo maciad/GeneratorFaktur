@@ -9,6 +9,12 @@ import java.io.*;
 
 public class Main {
 
+    /**
+     * Main method of the program. Parses data from CSV or XLSX file and writes them to an XML file
+     * @param args the command line arguments:
+     * args[0] - path to CSV/XLSX input file,
+     * args[1] - path to XML output file
+     */
     public static void main(String[] args) throws JAXBException, IOException {
 
         String inputFile = args[0];
@@ -19,7 +25,7 @@ public class Main {
 
         if (inputFile.endsWith(".csv")) {
             faktury.setFaktury(CSVReader.readFromCSV(inputFile));
-        } else if (inputFile.endsWith(".xlsx") | inputFile.endsWith(".xls")) {
+        } else if (inputFile.endsWith(".xlsx") || inputFile.endsWith(".xls")) {
             faktury.setFaktury(XLSXReader.readFromXLSX(inputFile));
         }
         else {
