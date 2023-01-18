@@ -6,7 +6,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.*;
 
-
+/**
+ * Main class of the application. It is responsible for reading data from the file and creating
+ * an XML file representing the invoices.
+ */
 public class Main {
 
     /**

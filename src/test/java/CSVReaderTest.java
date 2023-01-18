@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import static org.junit.Assert.*;
 
+
 public class CSVReaderTest {
 
     private static final String TEST_CSV_FILE = "test.csv";

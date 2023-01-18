@@ -12,6 +12,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Faktury {
 
+
     @XmlElement(name = "Waluta")
     private static final String WALUTA = "PLN";
     @XmlElement(name = "Faktura")
@@ -19,6 +20,7 @@ public class Faktury {
 
     private BigDecimal sumaNetto = BigDecimal.valueOf(0).setScale(2, RoundingMode.HALF_UP);
     private BigDecimal sumaVat = BigDecimal.valueOf(0).setScale(2, RoundingMode.HALF_UP);
+    private int liczbaFaktur = 0;
 
     public List<Faktura> getFaktury() {
         return listaFaktur;
@@ -30,6 +32,7 @@ public class Faktury {
             sumaNetto = sumaNetto.add(faktura.getCenaNettoFaktury());
             sumaVat = sumaVat.add(faktura.getKwotaPodatku());
         }
+        liczbaFaktur = faktury.size();
     }
 
     public BigDecimal getSumaNetto() {

@@ -9,7 +9,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * class responsbile for reading data from CSV file
+ */
 public class CSVReader {
 
     private CSVReader() {}

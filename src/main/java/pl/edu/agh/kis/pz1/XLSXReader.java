@@ -11,6 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * class responsible for reading data from XLSX file
+ */
 public class XLSXReader {
 
     private XLSXReader() {}
