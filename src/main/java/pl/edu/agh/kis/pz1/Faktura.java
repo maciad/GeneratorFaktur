@@ -90,6 +90,74 @@ public class Faktura {
         this.cenaBruttoFaktury = BigDecimal.valueOf(Double.parseDouble(dane[14].split(" ")[0].replace(",", ".").replace(NBSP, ""))).setScale(2, RoundingMode.HALF_UP);
     }
 
+    public BigDecimal getCenaNettoFaktury() {
+        return cenaNettoFaktury;
+    }
+
+    public BigDecimal getKwotaPodatku() {
+        return kwotaPodatku;
+    }
+
+    public BigDecimal getCenaBruttoFaktury() {
+        return cenaBruttoFaktury;
+    }
+
+    public BigDecimal getCenaNettoPozycji() {
+        return cenaNettoPozycji;
+    }
+
+    public BigDecimal getCenaBruttoPozycji() {
+        return cenaBruttoPozycji;
+    }
+
+    public BigDecimal getCenaJednostkowa() {
+        return cenaJednostkowa;
+    }
+
+    public String getNazwaOdbiorcy() {
+        return nazwaOdbiorcy;
+    }
+
+    public String getAdresOdbiorcy() {
+        return adresOdbiorcy;
+    }
+
+    public String getNipOdbiorcy() {
+        return nipOdbiorcy;
+    }
+
+    public String getDataWystawienia() {
+        return dataWystawienia;
+    }
+
+    public String getDataSprzedazy() {
+        return dataSprzedazy;
+    }
+
+    public String getNrFaktury() {
+        return nrFaktury;
+    }
+
+    public String getTytulPozycji() {
+        return tytulPozycji;
+    }
+
+    public double getLiczbaSztuk() {
+        return liczbaSztuk;
+    }
+
+    public int getStawkaPodatku() {
+        return stawkaPodatku;
+    }
+
+    public void setCenaNettoFaktury(BigDecimal cenaNettoFaktury) {
+        this.cenaNettoFaktury = cenaNettoFaktury;
+    }
+
+    public void setKwotaPodatku(BigDecimal kwotaPodatku) {
+        this.kwotaPodatku = kwotaPodatku;
+    }
+
 
     @Override
     public String toString() {
